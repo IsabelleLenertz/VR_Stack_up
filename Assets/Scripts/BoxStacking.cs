@@ -38,10 +38,11 @@ public class BoxStacking : MonoBehaviour {
                 // Create a new box
                 GameObject box = Instantiate<GameObject>(boxPrefab);
                 box.transform.position = this.transform.position;
+                collidingObject = box;
                 GrabObject();
             }
         }
-        else if (Controller.GetHairTriggerUp() && objectInHand)
+        else if (Controller.GetHairTriggerUp())
         {
             ReleaseObject();
         }
@@ -51,7 +52,7 @@ public class BoxStacking : MonoBehaviour {
     private void SetCollidingObject(Collider col)
     {
         // if there is no colliding object yet stored and the argument has a rigidbody (ie, can be interacted with)
-        if (!collidingObject || col.GetComponent<Rigidbody>())
+        if (!collidingObject && col.GetComponent<Rigidbody>())
         {
             // set the argument as colliding object
             collidingObject = col.gameObject;
@@ -81,12 +82,12 @@ public class BoxStacking : MonoBehaviour {
         if (this.GetComponent<FixedJoint>())
         {
             // Remove the link
-            this.GetComponent<FixedJoint>().connectedBody = null;   // not sure this line is needed
+            //this.GetComponent<FixedJoint>().connectedBody = null;   // not sure this line is needed
             Destroy(this.GetComponent<FixedJoint>());
 
             // Set appropriate velocity
-            objectInHand.GetComponent<Rigidbody>().velocity = this.GetComponent<Rigidbody>().velocity;
-            objectInHand.GetComponent<Rigidbody>().angularVelocity = this.GetComponent<Rigidbody>().angularVelocity;
+            objectInHand.GetComponent<Rigidbody>().velocity = Controller.velocity;
+            objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity;
 
             // remove the reference
             objectInHand = null;
