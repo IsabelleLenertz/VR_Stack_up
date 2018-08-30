@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxSctacking : MonoBehaviour {
+public class BoxStacking : MonoBehaviour {
 
     private SteamVR_TrackedObject trackedObj;   // to get a handle of the controller
     private GameObject collidingObject;         // store a reference to the colliding object
     private GameObject objectInHand;            // store a reference to the object hold with the controller
+    public GameObject boxPrefab;                // reference to the box prefab to create
 
     private SteamVR_Controller.Device Controller        // Reference to the controller
     {
@@ -26,9 +27,19 @@ public class BoxSctacking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Controller.GetHairTriggerDown() && collidingObject)
+        if (Controller.GetHairTriggerDown())
         {
-            GrabObject();
+            if (collidingObject)
+            {
+                GrabObject();
+            }
+            else
+            {
+                // Create a new box
+                GameObject box = Instantiate<GameObject>(boxPrefab);
+                box.transform.position = this.transform.position;
+                GrabObject();
+            }
         }
         else if (Controller.GetHairTriggerUp() && objectInHand)
         {
