@@ -8,6 +8,8 @@ public class BoxStacking : MonoBehaviour {
     private GameObject collidingObject;         // store a reference to the colliding object
     private GameObject objectInHand;            // store a reference to the object hold with the controller
     public GameObject boxPrefab;                // reference to the box prefab to create
+    public GameObject camera;                // reference to the player's position
+    private const int speed = 10;
 
     private SteamVR_Controller.Device Controller        // Reference to the controller
     {
@@ -27,6 +29,28 @@ public class BoxStacking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
+        {
+            Vector2 touchpad = Controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0);
+            if(touchpad.y > 0.6f)
+            {
+                // Move up
+                Vector2 position = camera.transform.position;
+                position.y += speed;
+                camera.transform.position = position;
+            } else if(touchpad.y < -0.6f)
+            {
+                // Move Down
+                Vector2 position = camera.transform.position;
+                if (position.y > speed)
+                    position.y -= speed;
+                else
+                    position.y = 0;
+                camera.transform.position = position;
+
+            }
+        }
+
         if (Controller.GetHairTriggerDown())
         {
             if (collidingObject)
