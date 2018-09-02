@@ -9,7 +9,7 @@ public class BoxStacking : MonoBehaviour {
     private GameObject objectInHand;            // store a reference to the object hold with the controller
     public GameObject boxPrefab;                // reference to the box prefab to create
     public GameObject camera;                // reference to the player's position
-    private const int speed = 10;
+    private const float speed = 0.05f;
 
     private SteamVR_Controller.Device Controller        // Reference to the controller
     {
@@ -35,13 +35,13 @@ public class BoxStacking : MonoBehaviour {
             if(touchpad.y > 0.6f)
             {
                 // Move up
-                Vector2 position = camera.transform.position;
+                Vector3 position = camera.transform.position;
                 position.y += speed;
                 camera.transform.position = position;
             } else if(touchpad.y < -0.6f)
             {
                 // Move Down
-                Vector2 position = camera.transform.position;
+                Vector3 position = camera.transform.position;
                 if (position.y > speed)
                     position.y -= speed;
                 else
