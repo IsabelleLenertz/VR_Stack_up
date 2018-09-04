@@ -12,7 +12,7 @@ public class score : MonoBehaviour {
         // Initializes the score to 0
         GameObject currentScoreGO = GameObject.Find("ScoreDisplay");
         currentScoreGT = currentScoreGO.GetComponent<Text>();
-        currentScoreGT.text = "Score: 0 m";
+        currentScoreGT.text = "0";
 	}
 	
 	// Update is called once per frame
@@ -21,7 +21,7 @@ public class score : MonoBehaviour {
         // Update score if new maximum height was found
         if (height > double.Parse(currentScoreGT.text))
         {
-            currentScoreGT.text = "Score: " + height.ToString() + " m";
+            currentScoreGT.text = height.ToString();
         }
 	}
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Box
   - CarriedBox
+  - ScoreDisplay
   layers:
   - Default
   - TransparentFX
