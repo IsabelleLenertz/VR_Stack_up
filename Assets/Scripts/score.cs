@@ -6,7 +6,13 @@ using UnityEngine.UI;
 public class score : MonoBehaviour {
 
     private const double BOX_HEIGHT_CORRECTION = 0.15;
+    private const float DELTA_TIME = 0.25f;
+    private const float DELTA_H = 0.01f;
+    private float startCounter;
+
     public Text currentScoreGT;
+
+
     // Use this for initialization
     void Start () {
         // Initializes the score to 0
@@ -21,13 +27,31 @@ public class score : MonoBehaviour {
         // Update score if new maximum height was found
         if (height > decimal.Parse(currentScoreGT.text))
         {
-            currentScoreGT.text = height.ToString("N2");
-            if(height > (decimal)HighScore.score)
-            {
-                HighScore.score = (float)height;
-            }
+            checkNewHeight(height);
         }
 	}
+
+    IEnumerator checkNewHeight(decimal tempHeight)
+    {
+        startCounter = Time.time;
+        
+        while( (Time.time - startCounter) < DELTA_TIME)
+        {
+            if( Mathf.Abs((float)(tempHeight - FindHight())) > DELTA_H)
+            {
+                yield break;
+            }
+            yield return null;
+
+        }
+
+        // the while loop exits if a certain height was kept for longer than delta time
+        currentScoreGT.text = tempHeight.ToString("N2");
+        if (tempHeight > (decimal)HighScore.score)
+        {
+            HighScore.score = (float)tempHeight;
+        }
+    }
 
     private decimal FindHight()
     {
