@@ -91,6 +91,7 @@ public class BoxStacking : MonoBehaviour {
         // Consider the colliding object as hold
         objectInHand = collidingObject;
         collidingObject = null;
+        objectInHand.gameObject.tag = "CarriedBox";
 
         // Create a strong link between the object and the controller
         FixedJoint fx = this.gameObject.AddComponent<FixedJoint>();
@@ -112,6 +113,7 @@ public class BoxStacking : MonoBehaviour {
             // Set appropriate velocity
             objectInHand.GetComponent<Rigidbody>().velocity = Controller.velocity;
             objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity;
+            objectInHand.gameObject.tag = "Box";
 
             // remove the reference
             objectInHand = null;
