@@ -22,6 +22,10 @@ public class score : MonoBehaviour {
         if (height > decimal.Parse(currentScoreGT.text))
         {
             currentScoreGT.text = height.ToString("N2");
+            if(height > (decimal)HighScore.score)
+            {
+                HighScore.score = (float)height;
+            }
         }
 	}
 
