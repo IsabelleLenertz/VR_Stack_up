@@ -10,6 +10,8 @@ public class score : MonoBehaviour {
     private const float DELTA_H = 0.01f;
     private float startCounter;
 
+    private decimal maxHeight = 0.0m;
+
     public Text currentScoreGT;
 
 
@@ -31,26 +33,25 @@ public class score : MonoBehaviour {
         }
 	}
 
-    IEnumerator checkNewHeight(decimal tempHeight)
+    void checkNewHeight(decimal tempHeight)
     {
-        startCounter = Time.time;
-        
-        while( (Time.time - startCounter) < DELTA_TIME)
+        if (Mathf.Abs((float)(tempHeight - maxHeight)) < DELTA_H)
         {
-            if( Mathf.Abs((float)(tempHeight - FindHight())) > DELTA_H)
-            {
-                yield break;
+            if ((Time.time - startCounter) > DELTA_TIME) {
+                // Update the new score.
+                currentScoreGT.text = tempHeight.ToString("N2");
+                if (tempHeight > (decimal)HighScore.score)
+                {
+                    HighScore.score = (float)tempHeight;
+                }
             }
-            yield return null;
-
-        }
-
-        // the while loop exits if a certain height was kept for longer than delta time
-        currentScoreGT.text = tempHeight.ToString("N2");
-        if (tempHeight > (decimal)HighScore.score)
+        } else
         {
-            HighScore.score = (float)tempHeight;
+            // See if the height stabilises to the current value now.
+            startCounter = Time.time;
+            maxHeight = tempHeight;
         }
+
     }
 
     private decimal FindHight()
