@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class BoxStacking : MonoBehaviour {
 
@@ -69,6 +71,11 @@ public class BoxStacking : MonoBehaviour {
         else if (Controller.GetHairTriggerUp())
         {
             ReleaseObject();
+        }
+
+        if (Controller.GetPress(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        {
+            SceneManager.LoadScene("room_1");
         }
     }
 
